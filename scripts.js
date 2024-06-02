@@ -7,10 +7,6 @@ function placeOrder(plan) {
 
     const params = {
         username: "Order Bot",
-        content: `New order received for: ${plan} plan`
+        content: `A customer may order..`
     };
-
-    request.send(JSON.stringify(params));
-    
-    alert(`Your order for the ${plan} plan has been placed.`);
 }
