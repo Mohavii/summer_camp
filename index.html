@@ -1,53 +1,119 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Design Portfolio</title>
-    <link rel="stylesheet" href="styles.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Registration Page</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: linear-gradient(135deg, #ff7e5f, #feb47b);
+      color: #fff;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      overflow: hidden;
+    }
+    .container {
+      background: rgba(255, 255, 255, 0.1);
+      border-radius: 15px;
+      padding: 30px;
+      box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+      text-align: center;
+      backdrop-filter: blur(10px);
+      animation: fadeIn 1.5s ease-in-out;
+    }
+    h1 {
+      margin-bottom: 20px;
+    }
+    label {
+      font-size: 18px;
+      display: block;
+      margin-bottom: 8px;
+    }
+    input, select {
+      width: 100%;
+      padding: 10px;
+      margin-bottom: 20px;
+      border: none;
+      border-radius: 8px;
+      font-size: 16px;
+    }
+    button {
+      background-color: #ff7e5f;
+      border: none;
+      padding: 10px 20px;
+      border-radius: 8px;
+      font-size: 16px;
+      color: #fff;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+    button:hover {
+      background-color: #feb47b;
+    }
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+        transform: translateY(-20px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+    @media (max-width: 600px) {
+      .container {
+        width: 90%;
+      }
+    }
+  </style>
 </head>
 <body>
-    <header>
-        <h1>Design Portfolio</h1>
-        <nav>
-            <a href="#portfolio">Portfolio</a>
-            <a href="#pricing">Pricing</a>
-            <a href="#contact">Contact</a>
-        </nav>
-    </header>
-    
-    <section id="portfolio">
-        <h2>Portfolio</h2>
-        <p>Here are some of my works:</p>
-        <!-- Add your portfolio items here -->
-    </section>
-    
-    <section id="pricing">
-        <h2>Pricing</h2>
-        <div class="pricing-option">
-            <h3>Basic</h3>
-            <p>$50</p>
-            <button onclick="placeOrder('Basic')">Order</button>
-        </div>
-        <div class="pricing-option">
-            <h3>Standard</h3>
-            <p>$100</p>
-            <button onclick="placeOrder('Standard')">Order</button>
-        </div>
-        <div class="pricing-option">
-            <h3>Premium</h3>
-            <p>$150</p>
-            <button onclick="placeOrder('Premium')">Order</button>
-        </div>
-    </section>
-    
-    <footer id="contact">
-        <h2>Contact</h2>
-        <p>Email: your.email@example.com</p>
-        <p>Phone: +123 456 7890</p>
-    </footer>
+  <div class="container">
+    <h1>Register</h1>
+    <form id="registrationForm">
+      <label for="name">Name</label>
+      <input type="text" id="name" name="name" placeholder="Enter your name" required>
 
-    <script src="scripts.js"></script>
+      <label for="role">Role</label>
+      <select id="role" name="role" required>
+        <option value="">Select your role</option>
+        <option value="choral">Choral</option>
+        <option value="instrumental">Instrumental</option>
+      </select>
+
+      <button type="submit">Submit</button>
+    </form>
+  </div>
+
+  <script>
+    const form = document.querySelector('#registrationForm');
+    form.addEventListener('submit', async (event) => {
+      event.preventDefault();
+
+      const name = document.querySelector('#name').value;
+      const role = document.querySelector('#role').value;
+
+      try {
+        const response = await fetch('https://your-app-name.glitch.me/register', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ name, role }),
+        });
+
+        const result = await response.json();
+        if (response.ok) {
+          alert(result.message);
+        } else {
+          alert(result.error);
+        }
+      } catch (error) {
+        alert('Error connecting to the server.');
+      }
+    });
+  </script>
 </body>
 </html>
-
