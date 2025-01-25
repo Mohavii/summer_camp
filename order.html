@@ -26,14 +26,20 @@
       animation: fadeIn 1.5s ease-in-out;
       width: 90%;
       max-width: 800px;
+      overflow: hidden;
     }
     h1 {
       margin-bottom: 20px;
     }
+    .table-container {
+      max-height: 400px;
+      overflow-y: auto;
+      border-radius: 8px;
+      border: 1px solid rgba(255, 255, 255, 0.3);
+    }
     table {
       width: 100%;
       border-collapse: collapse;
-      margin-top: 20px;
     }
     th, td {
       padding: 10px;
@@ -65,20 +71,22 @@
 </head>
 <body>
   <div class="container">
-    <h1>Choral Members</h1>
-    <table>
-      <thead>
-        <tr>
-          <th>Name</th>
-          <th>Role</th>
-        </tr>
-      </thead>
-      <tbody id="choralTableBody">
-        <tr>
-          <td colspan="2">Loading...</td>
-        </tr>
-      </tbody>
-    </table>
+    <h1>الأعضاء الكوراليون</h1>
+    <div class="table-container">
+      <table>
+        <thead>
+          <tr>
+            <th>الاسم</th>
+            <th>الدور</th>
+          </tr>
+        </thead>
+        <tbody id="choralTableBody">
+          <tr>
+            <td colspan="2">Loading...</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
   </div>
 
   <script>
@@ -90,7 +98,17 @@
         const users = await response.json();
 
         if (response.ok && Array.isArray(users)) {
-          const choralMembers = users.filter(user => user.role === 'choral');
+          const seenNames = new Set();
+          const choralMembers = users
+            .filter(user => user.role === 'choral' && /^[؀-ۿ\s]+$/.test(user.name))
+            .filter(user => {
+              if (seenNames.has(user.name)) {
+                return false;
+              } else {
+                seenNames.add(user.name);
+                return true;
+              }
+            });
 
           if (choralMembers.length > 0) {
             tableBody.innerHTML = choralMembers.map(member => `
@@ -100,13 +118,13 @@
               </tr>
             `).join('');
           } else {
-            tableBody.innerHTML = '<tr><td colspan="2">No choral members found.</td></tr>';
+            tableBody.innerHTML = '<tr><td colspan="2">لم يتم العثور على أعضاء كوراليين.</td></tr>';
           }
         } else {
-          tableBody.innerHTML = '<tr><td colspan="2">Failed to load data.</td></tr>';
+          tableBody.innerHTML = '<tr><td colspan="2">فشل تحميل البيانات.</td></tr>';
         }
       } catch (error) {
-        tableBody.innerHTML = '<tr><td colspan="2">Error fetching data.</td></tr>';
+        tableBody.innerHTML = '<tr><td colspan="2">حدث خطأ أثناء جلب البيانات.</td></tr>';
       }
     }
 
