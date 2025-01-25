@@ -75,17 +75,17 @@
   <div class="container">
     <h1>Register</h1>
     <form id="registrationForm">
-      <label for="name">Name</label>
-      <input type="text" id="name" name="name" placeholder="Enter your name" required>
+      <label for="name">الإسم واللقب</label>
+      <input type="text" id="name" name="name" placeholder="أدخل اسمك هنا" required>
 
-      <label for="role">Role</label>
+      <label for="role">الدور</label>
       <select id="role" name="role" required>
         <option value="">Select your role</option>
-        <option value="choral">Choral</option>
-        <option value="instrumental">Instrumental</option>
+        <option value="choral">غناء</option>
+        <option value="instrumental">عـزف</option>
       </select>
 
-      <button type="submit">Submit</button>
+      <button type="submit">أرسل</button>
     </form>
   </div>
 
@@ -111,7 +111,7 @@
           alert(result.error);
         }
       } catch (error) {
-        alert('Error connecting to the server.');
+        alert('جوك باهي !');
       }
     });
   </script>
